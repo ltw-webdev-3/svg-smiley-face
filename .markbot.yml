@@ -1,0 +1,58 @@
+repo: 'svg-smiley-face'
+canvasCourse: 'web-dev-3'
+
+inherit:
+  - naming-restrict-live
+  - git-2
+  - html
+  - css
+
+html:
+  - path: 'index.html'
+    outline: false
+    has:
+      - 'svg.smiley'
+      - 'circle.face'
+      - 'circle.left-eye'
+      - 'circle.right-eye'
+      - 'path.mouth'
+      - 'rect.left-eyebrow'
+      - 'rect.right-eyebrow'
+
+css:
+  - path: 'css/main.css'
+    has:
+      - ['.face', 'fill', 'gold']
+      - ['.mouth', 'fill', 'none']
+      - ['.mouth', 'stroke', '#000']
+      - ['.left-eyebrow', 'transform', 'rotate(80deg)']
+      - ['.left-eyebrow', 'transform-origin', '100px 82px']
+      - ['.right-eyebrow', 'transform', 'rotate(100deg)']
+      - ['.right-eyebrow', 'transition', 'all .5s linear']
+      - ['.smiley:hover .left-eyebrow', 'transform', 'rotate(100deg)']
+      - ['.smiley:hover .right-eyebrow', 'transform', 'rotate(80deg)']
+
+screenshots:
+  - path: 'index.html'
+    label: 'Before'
+    sizes: [320]
+  - path: 'index.html'
+    label: 'After'
+    sizes: [320]
+    before: |
+      let eyebrow = $('.left-eyebrow');
+
+      on(eyebrow, 'transitionend', done);
+      hover(eyebrow);
+
+functionality:
+  - path: 'index.html'
+    tests:
+      - |
+        let eyebrow = $('.left-eyebrow');
+        let oldRotate = css(eyebrow).transform;
+
+        hover(eyebrow, function () {
+          if (css(eyebrow).transform == oldRotate) return fail('The left eyebrow doesn’t rotate when hovered');
+          pass();
+        });
